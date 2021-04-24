@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import AppLoading from 'expo-app-loading';
-
 import Routes from './src/routes';
 
 import {
@@ -14,6 +13,7 @@ export default function App() {
     Jost_400Regular,
     Jost_600SemiBold
   });
+
   if(!fontsLoaded) {
     return (
       <AppLoading></AppLoading>

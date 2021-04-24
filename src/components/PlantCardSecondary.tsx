@@ -2,13 +2,16 @@ import React from 'react';
 import {
     StyleSheet,
     Text,
-    View
+    View,
+    Animated
 } from 'react-native';
 import {
     RectButton,
-    RectButtonProps
+    RectButtonProps,
+    Swipeable
 } from 'react-native-gesture-handler';
 import { SvgFromUri } from 'react-native-svg';
+import { Feather } from '@expo/vector-icons';
 
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
@@ -18,32 +21,48 @@ interface PlantProps extends RectButtonProps {
         name: string,
         photo: string,
         hour: string
-    }
+    };
+
+    handleRemove: () => void;
 };
 
-export const PlantCardSecondary = ({ data, ...rest }: PlantProps) => {
+export const PlantCardSecondary = ({ data, handleRemove, ...rest }: PlantProps) => {
     return (
-        <RectButton
-            style={ styles.container }
-            { ...rest }
+        <Swipeable
+            overshootRight={ false }
+            renderRightActions={() => (
+                <Animated.View>
+                    <RectButton
+                        style={ styles.removeButton }
+                        onPress={ handleRemove }
+                    >
+                        <Feather name="trash" size={ 32 } color={ colors.white } />
+                    </RectButton>
+                </Animated.View>
+            )}
         >
-            <SvgFromUri
-                uri={ data.photo }
-                width={ 50 }
-                height={ 50 }
-            />
-            <Text style={ styles.title }>
-                { data.name }
-            </Text>
-            <View style={ styles.details }>
-                <Text style={ styles.timeLabel }>
-                    Regar às
+            <RectButton
+                style={ styles.container }
+                { ...rest }
+            >
+                <SvgFromUri
+                    uri={ data.photo }
+                    width={ 50 }
+                    height={ 50 }
+                />
+                <Text style={ styles.title }>
+                    { data.name }
                 </Text>
-                <Text style={ styles.time }>
-                    { data.hour }
-                </Text>
-            </View>
-        </RectButton>
+                <View style={ styles.details }>
+                    <Text style={ styles.timeLabel }>
+                        Regar às
+                    </Text>
+                    <Text style={ styles.time }>
+                        { data.hour }
+                    </Text>
+                </View>
+            </RectButton>
+        </Swipeable>
     )
 }
 
@@ -78,5 +97,17 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontFamily: fonts.heading,
         color: colors.body_dark
+    },
+    removeButton: {
+        width: 120,
+        height: 85,
+        backgroundColor: colors.red,
+        marginTop: 15,
+        borderRadius: 20,
+        justifyContent: 'center',
+        alignItems: 'center',
+        position: 'relative',
+        right: 20,
+        paddingLeft: 10
     }
 });
