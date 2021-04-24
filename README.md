@@ -5,3 +5,4 @@
 - Ícones: expo/vector-icons
 - Navegação: react-navigation/native, react-navigation/stack
 - Carregamento inicial: expo-app-loading
+- Persistencia de dados: async-storage
